@@ -77,8 +77,7 @@ i2c = busio.I2C(board.GP5, board.GP4)
 
 # Create sensor objects for the IMU and distance sensor
 mpu = adafruit_mpu6050.MPU6050(i2c)
-#vl53 = adafruit_vl53l0x.VL53L0X(i2c)
-vl53 = 30
+vl53 = adafruit_vl53l0x.VL53L0X(i2c)
 
 # Initialize left and right aileron servos
 pwm_AL = pwmio.PWMOut(board.GP7, frequency=50)
