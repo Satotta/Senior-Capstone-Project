@@ -126,7 +126,6 @@ while True:
     d_A = attitudeControl(phi_cmd, d_A_limit, K_phi, K_p, phi_f, p_f)
     
     # Change left and right aileron angles and ensure servo saturation is avoided
-    print(theta, d_A)
     AL.angle = AL_center - d_A
     AR.angle = AR_center - d_A
     
@@ -138,13 +137,12 @@ while True:
     theta_f = smooth(theta, theta_f, a_theta)
     q_f = smooth(q, q_f, a_q)
     
-    
     # Call aileron controller and determine deflection [deg]
     d_el = attitudeControl(theta_cmd, d_el_limit, K_theta, K_q, theta_f, q_f)
-    #print(d_el)
+    
     # Change elevator angle
     el.angle = el_center + d_el
-    print(theta_f, d_el)
+
     
     
     # ========= Altitude Control ========= #
@@ -157,8 +155,11 @@ while True:
     
     # Call altitude controller and determine throttle change
     d_T_temp = altitudeControl(h_cmd, K_T, h_db, d_T, h)
+
+    # Implement pilot override at zero throttle (12% for our controller)
+    if T_p < 0.12:
+        d_T_temp = 0
     
     # Correct throttle
-    # print(time.monotonic(), h_f, max(0, min(T_p + d_T_temp, 1)), (el_center + d_el))
     motor.fraction = max(0, min(T_p + d_T_temp, 1))
     
