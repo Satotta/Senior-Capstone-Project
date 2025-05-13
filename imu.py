@@ -33,7 +33,7 @@ def attitude(mpu):
 # Define function for finding vehicle alt
 def dist(vl53):
     
-    return vl53 #vl53.range/1000
+    return vl53.range/1000
 
 
 
